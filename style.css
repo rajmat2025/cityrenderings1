@@ -1,0 +1,30 @@
+/* Enable smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 56px; /* Offset for the fixed navbar height */
+}
+
+/* --- Carousel Styles --- */
+#homeCarousel .carousel-item {
+    height: 100vh; /* Full viewport height */
+    min-height: 500px;
+}
+
+#homeCarousel .carousel-item img {
+    object-fit: cover; /* Prevents image from stretching */
+    height: 100%;
+    width: 100%;
+}
+
+/* Add a dark overlay to the carousel caption for better text readability */
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+/* --- Section Styles --- */
+section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
