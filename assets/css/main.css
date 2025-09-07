@@ -1,82 +1,413 @@
+/*
+  Theme: CityRenderings Pro
+  Version: 2.0
+  Author: GitHub Copilot
+*/
+
 :root {
-  --bg: #ffffff;
-  --panel: #f8f9fa;
-  --text: #212529;
-  --muted: #6c757d;
-  --brand: #0056b3;
-  --accent: #5a2a99;
-  --max: 1200px;
-  --radius: 8px;
-  --shadow: 0 8px 24px rgba(0,0,0,.1);
+  --black: #0a0a0a;
+  --gray-dark: #1a1a1a;
+  --gray: #2c2c2c;
+  --gray-light: #444;
+  --white: #f0f0f0;
+  --blue: #007bff;
+  --blue-light: #3395ff;
+  
+  --text-primary: var(--white);
+  --text-secondary: #a0a0a0;
+  --bg-primary: var(--black);
+  --bg-secondary: var(--gray-dark);
+  --bg-tertiary: var(--gray);
+  --accent: var(--blue);
+  --accent-hover: var(--blue-light);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --max-width: 1140px;
+  --radius: 6px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --transition: all 0.3s ease;
 }
-*{box-sizing:border-box}
-html,body{margin:0;height:100%;scroll-behavior:smooth;background:var(--bg);color:var(--text);font:16px/1.7 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif}
-img{max-width:100%;height:auto;display:block}
-a{color:var(--brand);text-decoration:none}
-a:hover{text-decoration:underline}
 
-/* Header */
-header{position:sticky;top:0;backdrop-filter:saturate(180%) blur(10px);background:rgba(255,255,255,.85);border-bottom:1px solid #dee2e6;z-index:100}
-.nav{max-width:var(--max);margin:auto;display:flex;align-items:center;gap:1.5rem;padding:1rem}
-.logo img{max-height:50px;width:auto}
-.spacer{flex:1}
-.menu a{padding:.5rem 1rem;border-radius:var(--radius);font-weight:600;transition:background .2s}
-.menu a:hover{background:rgba(0,0,0,.05)}
+/* 1. Global Resets & Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* Hero */
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;max-width:var(--max);margin:auto;padding:4rem 1rem}
-.hero-content{padding-right:2rem}
-.headline{font-size:clamp(2.5rem, 4vw, 3.5rem);line-height:1.2;margin:0 0 1rem}
-.sub{font-size:1.1rem;margin:0 0 2rem;color:var(--muted)}
-.cta{display:flex;gap:1rem}
-.btn{appearance:none;border:none;cursor:pointer;background:var(--brand);color:#fff;padding:.8rem 1.5rem;border-radius:var(--radius);font-weight:700;transition:background .2s}
-.btn:hover{background:var(--accent)}
-.btn.ghost{background:transparent;color:var(--brand);border:2px solid var(--brand)}
-.hero-image img{border-radius:var(--radius);box-shadow:var(--shadow)}
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
 
-/* Services */
-#services{background:#f8f9fa;padding:4rem 1rem}
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.5rem;perspective:1000px}
-.service-card{position:relative;transform-style:preserve-3d;transition:transform .7s;cursor:pointer;border-radius:var(--radius);box-shadow:var(--shadow)}
-.service-card:hover, .service-card:focus{transform:rotateY(180deg)}
-.card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem;border-radius:var(--radius)}
-.card-front{background:var(--bg);z-index:2}
-.card-back{background:var(--panel);transform:rotateY(180deg)}
-.card-back img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius)}
-.service-card h3{margin:0 0 .5rem;font-size:1.25rem}
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-/* Portfolio Carousel */
-.portfolio{padding:4rem 1rem}
-.carousel{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.carousel-track{display:flex;width:400%;animation:slide 30s linear infinite}
-.slide{min-width:100%;position:relative}
-.slide img{width:100%;height:auto;object-fit:cover}
-.slide figcaption{position:absolute;left:0;bottom:0;width:100%;background:linear-gradient(0deg, rgba(0,0,0,.8) 0%, transparent 100%);padding:2rem 1.5rem;color:#fff;font-size:1.2rem;font-weight:600}
-@keyframes slide{0%,20%{transform:translateX(0)} 25%,45%{transform:translateX(-100%)} 50%,70%{transform:translateX(-200%)} 75%,95%{transform:translateX(-300%)} 100%{transform:translateX(-400%)}}
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: var(--transition);
+}
 
-/* About */
-#about{background:#f8f9fa;padding:4rem 1rem}
-.about-features{display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:2rem;margin-top:2rem}
-.feature-item h4{font-size:1.1rem;margin:0 0 .5rem}
+a:hover {
+  color: var(--accent-hover);
+}
 
-/* Pricing */
-#pricing{padding:4rem 1rem}
-.pricing-table{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
-.price-card{background:var(--panel);padding:2rem;border:1px solid #dee2e6;border-radius:var(--radius);text-align:center}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
 
-/* Contact */
-#contact{background:#f8f9fa;padding:4rem 1rem}
-form{display:grid;gap:1rem;max-width:700px;margin:auto}
-input, textarea{width:100%;padding:1rem;border-radius:var(--radius);border:1px solid #ced4da;background:#fff;color:var(--text)}
-input:focus, textarea:focus{outline:2px solid var(--brand);border-color:transparent}
-label{font-size:.9rem;color:var(--muted);margin-bottom:-.5rem}
+h1, h2, h3, h4 {
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--text-primary);
+}
 
-/* Footer */
-footer{text-align:center;padding:2rem 1rem;border-top:1px solid #dee2e6}
+h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.1rem; }
 
-/* Responsive */
-@media (max-width: 900px){
-  .hero{grid-template-columns:1fr;text-align:center}
-  .hero-content{padding:0}
-  .hero-image{margin-top:2rem}
+.container {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+}
+
+section {
+  padding: 80px 0;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 60px auto;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-align: center;
+  transition: var(--transition);
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* 2. Header & Navigation */
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: var(--transition);
+  border-bottom: 1px solid transparent;
+}
+
+#header.scrolled {
+  border-bottom: 1px solid var(--gray);
+}
+
+#header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.logo img {
+  height: 35px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  color: var(--text-primary);
+  font-weight: 500;
+  position: relative;
+  padding: 5px 0;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent);
+  transition: var(--transition);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* 3. Hero Section */
+#hero {
+  padding-top: 150px;
+  padding-bottom: 100px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(10, 10, 10, 0.7), var(--black)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  filter: blur(3px);
+  transform: scale(1.05);
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* 4. Services Section */
+#services {
+  background-color: var(--bg-secondary);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.service-item {
+  background-color: var(--bg-tertiary);
+  padding: 30px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-light);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.service-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+}
+
+.service-item h3 {
+  color: var(--accent);
+  margin-bottom: 0;
+}
+
+/* 5. Portfolio Section */
+.carousel {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background-color: var(--bg-tertiary);
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  min-width: 100%;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 20px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.carousel-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(0,0,0,0.5);
+  padding: 5px 10px;
+  border-radius: var(--radius);
+}
+
+.carousel-control {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--white);
+  padding: 5px;
+}
+.carousel-control svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.carousel-dot.active {
+  background-color: var(--accent);
+  transform: scale(1.2);
+}
+
+/* 6. About Section */
+#about {
+  background-color: var(--bg-secondary);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.about-item {
+  background-color: var(--bg-tertiary);
+  padding: 25px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-light);
+}
+
+.about-item h4 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+/* 7. Contact Section */
+.contact-form {
+  max-width: 700px;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-light);
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-hover);
+}
+
+/* 8. Footer */
+#footer {
+  background-color: var(--bg-secondary);
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 80px;
+  border-top: 1px solid var(--gray);
+}
+
+#footer p {
+  color: var(--text-secondary);
+}
+
+/* 9. Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Simplification for this example. A real site would use a mobile menu button. */
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  section {
+    padding: 60px 0;
+  }
 }
