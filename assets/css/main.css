@@ -5,26 +5,27 @@
 */
 
 :root {
-  --black: #0a0a0a;
-  --gray-dark: #1a1a1a;
-  --gray: #2c2c2c;
-  --gray-light: #444;
-  --white: #f0f0f0;
-  --blue: #007bff;
-  --blue-light: #3395ff;
-  
-  --text-primary: var(--white);
-  --text-secondary: #a0a0a0;
-  --bg-primary: var(--black);
-  --bg-secondary: var(--gray-dark);
-  --bg-tertiary: var(--gray);
+  --white: #ffffff;
+  --gray-lightest: #f8f9fa;
+  --gray-light: #e9ecef;
+  --gray: #ced4da;
+  --gray-dark: #6c757d;
+  --black: #212529;
+  --blue: #0056b3;
+  --blue-light: #007bff;
+
+  --text-primary: var(--black);
+  --text-secondary: var(--gray-dark);
+  --bg-primary: var(--white);
+  --bg-secondary: var(--gray-lightest);
+  --bg-tertiary: var(--white);
   --accent: var(--blue);
   --accent-hover: var(--blue-light);
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --max-width: 1140px;
   --radius: 6px;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
   --transition: all 0.3s ease;
 }
 
@@ -49,6 +50,22 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('https://images.unsplash.com/photo-1581092446327-9b52bdc60411?auto=format&fit=crop&w=1920&q=80');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: -1;
 }
 
 a {
@@ -87,6 +104,9 @@ h4 { font-size: 1.1rem; }
 
 section {
   padding: 80px 0;
+  background-color: rgba(255,255,255,0.1);
+  margin-bottom: 20px;
+  border-radius: var(--radius);
 }
 
 .section-title {
@@ -131,7 +151,7 @@ section {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background-color: rgba(10, 10, 10, 0.8);
+  background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: var(--transition);
@@ -139,7 +159,7 @@ section {
 }
 
 #header.scrolled {
-  border-bottom: 1px solid var(--gray);
+  border-bottom: 1px solid var(--gray-light);
 }
 
 #header .container {
@@ -150,7 +170,8 @@ section {
 }
 
 .logo img {
-  height: 35px;
+  width: 195px;
+  height: auto;
 }
 
 .nav-links {
@@ -188,6 +209,7 @@ section {
   position: relative;
   overflow: hidden;
   text-align: center;
+  background-color: transparent;
 }
 
 .hero-bg {
@@ -196,7 +218,7 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(10, 10, 10, 0.7), var(--black)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop');
+  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop');
   background-size: cover;
   background-position: center;
   z-index: -1;
@@ -211,7 +233,7 @@ section {
 
 .hero-title {
   margin-bottom: 1rem;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
 
 .hero-subtitle {
@@ -243,7 +265,7 @@ section {
 .service-item:hover {
   transform: translateY(-5px);
   border-color: var(--accent);
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+  box-shadow: var(--shadow);
 }
 
 .service-item h3 {
@@ -357,6 +379,9 @@ section {
 }
 
 /* 7. Contact Section */
+#contact {
+    background-color: var(--bg-secondary);
+}
 .contact-form {
   max-width: 700px;
   margin: 0 auto;
@@ -369,8 +394,8 @@ section {
   width: 100%;
   padding: 12px;
   border-radius: var(--radius);
-  border: 1px solid var(--gray-light);
-  background-color: var(--bg-tertiary);
+  border: 1px solid var(--gray);
+  background-color: var(--white);
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: 1rem;
@@ -388,8 +413,9 @@ section {
   background-color: var(--bg-secondary);
   text-align: center;
   padding: 30px 0;
-  margin-top: 80px;
-  border-top: 1px solid var(--gray);
+  margin-top: 0;
+  border-top: 1px solid var(--gray-light);
+  border-radius: 0;
 }
 
 #footer p {
