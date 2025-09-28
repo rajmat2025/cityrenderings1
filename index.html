@@ -22,7 +22,28 @@
   <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css?v=9hJY5a"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css?v=9hJY5a" type="text/css">
 
   
-  
+  <script>
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const payload = Object.fromEntries(f.entries());
+  const status = document.getElementById('status');
+  status.textContent = 'Sending…';
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    status.textContent = 'Thanks — message sent.';
+    e.target.reset();
+  } catch (err) {
+    status.textContent = 'Couldn’t send. Please try again later.';
+    console.error(err);
+  }
+});
+</script>
   
 </head>
 <body>
@@ -237,7 +258,8 @@
         </div>
     </div>
 </section>
-
+<section data-bs-version="5.1" class="content10 cid-sFAZRnJnnI" id="content10-221"></section>
+ <div class="container">
 <form id="contactForm" novalidate>
   <input name="name" required>
   <input name="email" type="email" required>
@@ -248,30 +270,10 @@
   <button type="submit">Send</button>
   <p id="status"></p>
 </form>
-<script>
-document.getElementById('contactForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const f = new FormData(e.target);
-  const payload = Object.fromEntries(f.entries());
-  const status = document.getElementById('status');
-  status.textContent = 'Sending…';
-  try {
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) throw new Error(await res.text());
-    status.textContent = 'Thanks — message sent.';
-    e.target.reset();
-  } catch (err) {
-    status.textContent = 'Couldn’t send. Please try again later.';
-    console.error(err);
-  }
-});
-</script>
+</div>
 
 
+</section>
 <section data-bs-version="5.1" class="contacts2 cid-sFzIA7KGYz" id="contacts2-1r">
     <!---->
     
