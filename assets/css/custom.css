@@ -1,0 +1,96 @@
+/* CSS Variables based on cityrenderings.com brand styles */
+:root {
+    --cr-blue: #2A63F6;
+    --cr-dark: #0F0F0F;
+    --cr-text: #616161;
+    --cr-border: #EAEAEA;
+    --cr-light-blue-bg: #F3F6FF;
+    --cr-white: #FFFFFF;
+}
+
+/* Basic body styles to mimic the site's look and feel for this demo */
+body {
+    /* This font should already be loaded on your site */
+    font-family: 'Satoshi', sans-serif; 
+    background-color: var(--cr-white);
+    margin: 0;
+    padding: 0;
+}
+
+/* Section Container and General Layout */
+.section_our-process {
+    padding: 100px 20px; /* Standard vertical padding for sections */
+    text-align: center;
+}
+
+.container {
+    max-width: 1312px; /* Matching the max-width of your site's containers */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section_our-process .section-title {
+    font-family: 'Clash Display', sans-serif; /* Heading Font */
+    color: var(--cr-dark);
+    font-size: 48px; /* Approximated from your h2 style */
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .section_our-process .section-title {
+        font-size: 36px;
+    }
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.process-card {
+    background-color: var(--cr-white);
+    border: 1px solid var(--cr-border);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: left;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.process-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
+}
+
+.process-card__icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--cr-light-blue-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.process-card__icon {
+    font-size: 28px;
+    color: var(--cr-blue);
+}
+
+.process-card__title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--cr-dark);
+    margin-bottom: 12px;
+}
+
+.process-card__description {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 16px;
+    color: var(--cr-text);
+    line-height: 1.6;
+}

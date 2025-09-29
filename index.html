@@ -14,7 +14,7 @@
  
   
 
-  <link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+  <link rel="stylesheet" href="assets/mobirise-icons2/mobirise2.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/animatecss/animate.css">
   <link rel="stylesheet" href="assets/socicon/css/styles.css">
@@ -23,31 +23,13 @@
   <link rel="stylesheet" href="assets/css/contact-form.css">
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
-  <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css?v=9hJY5a"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css?v=9hJY5a" type="text/css">
+  <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
   <link rel="canonical" href="https://cityrenderings.com/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
-  <script>
-document.getElementById('contactForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const f = new FormData(e.target);
-  const payload = Object.fromEntries(f.entries());
-  const status = document.getElementById('status');
-  status.textContent = 'Sending…';
-  try {
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) throw new Error(await res.text());
-    status.textContent = 'Thanks — message sent.';
-    e.target.reset();
-  } catch (err) {
-    status.textContent = 'Couldn’t send. Please try again later.';
-    console.error(err);
-  }
-});
-</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
   
 </head>
 <body>
@@ -110,6 +92,57 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     </div>
 </section>
 
+ <section class="section_our-process">
+        <div class="container">
+            <h2 class="section-title">Our Streamlined Process</h2>           
+            
+            <div class="process-grid">
+                
+                <div class="process-card">
+                    <div class="process-card__icon-wrapper">
+                        <i class="fa-solid fa-comments process-card__icon"></i>
+                    </div>
+                    <h3 class="process-card__title">Consultation & Discovery</h3>
+                    <p class="process-card__description">
+                        It all begins with your vision. Fill out our project inquiry form and we'll schedule a call to discuss your project, review plans, and understand your exact requirements.
+                    </p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card__icon-wrapper">
+                        <i class="fa-solid fa-file-signature process-card__icon"></i>
+                    </div>
+                    <h3 class="process-card__title">Proposal & Kickoff</h3>
+                    <p class="process-card__description">
+                        You'll receive a comprehensive proposal with a clear scope, timeline, and transparent pricing. Once you approve, we officially kick off the project.
+                    </p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card__icon-wrapper">
+                        <i class="fa-solid fa-drafting-compass process-card__icon"></i>
+                    </div>
+                    <h3 class="process-card__title">Creation & Collaboration</h3>
+                    <p class="process-card__description">
+                        Your vision takes shape. We provide draft previews for review and work with you through revision rounds to refine every detail until the rendering is perfect.
+                    </p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card__icon-wrapper">
+                        <i class="fa-solid fa-rocket process-card__icon"></i>
+                    </div>
+                    <h3 class="process-card__title">Finalization & Delivery</h3>
+                    <p class="process-card__description">
+                        Upon final approval, we complete the high-resolution rendering and post-production. You receive stunning images, ready for your marketing and presentations.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   
 <section data-bs-version="5.1" class="features1 cid-sFzyUE9AaP" id="features1-1i">
   
 
@@ -412,10 +445,9 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
             </div>
         </div>
     </div>
-</section><script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>  <script src="assets/smoothscroll/smooth-scroll.js"></script>  <script src="assets/ytplayer/index.js"></script>  <script src="assets/sociallikes/social-likes.js"></script>  <script src="assets/dropdown/js/navbar-dropdown.js"></script>  <script src="assets/theme/js/script.js"></script>  <script src="assets/formoid/formoid.min.js"></script>  
+</section><script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>  <script src="assets/smoothscroll/smooth-scroll.js"></script>  <script src="assets/ytplayer/index.js"></script>  <script src="assets/dropdown/js/navbar-dropdown.js"></script>  <script src="assets/theme/js/script.js"></script>  <script src="assets/sociallikes/social-likes.js"></script>  <script src="assets/js/contact-form.js"></script>  <script src="assets/formoid/formoid.min.js"></script>  <script src="assets/js/header-script.js"></script>
   
   <!-- Email sending functionality -->
-  <script src="assets/js/contact-form.js"></script>
   
   <input name="animation" type="hidden">
   </body>
