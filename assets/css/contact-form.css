@@ -81,17 +81,15 @@
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
-.contact-form .invalid-feedback {
+.contact-form .validation-message {
     color: #dc3545;
     font-size: 14px;
+    font-weight: bold;
+    text-align: right;
     margin-top: 5px;
     display: none;
-    width: 100%;
-    text-align: right;
-    font-weight: bold;
 }
 
-.contact-form .is-invalid + .invalid-feedback,
-.contact-form .input-group:has(.is-invalid) .invalid-feedback {
+.contact-form .validation-message.show {
     display: block;
 }

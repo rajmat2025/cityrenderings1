@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Reset previous error messages
       document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+      document.querySelectorAll('.validation-message.show').forEach(el => el.classList.remove('show'));
       
       // Validate form
       let isValid = true;
@@ -25,24 +26,28 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (!name) {
         document.getElementById('name').classList.add('is-invalid');
+        document.getElementById('name-validation').classList.add('show');
         errors.push('Name');
         isValid = false;
       }
       
       if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         document.getElementById('email').classList.add('is-invalid');
+        document.getElementById('email-validation').classList.add('show');
         errors.push('Email');
         isValid = false;
       }
       
       if (!subject) {
         document.getElementById('subject').classList.add('is-invalid');
+        document.getElementById('subject-validation').classList.add('show');
         errors.push('Subject');
         isValid = false;
       }
       
       if (!message) {
         document.getElementById('message').classList.add('is-invalid');
+        document.getElementById('message-validation').classList.add('show');
         errors.push('Message');
         isValid = false;
       }
@@ -64,6 +69,43 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Send email using Zeptomail API
       try {
+        console.log('Sending email...');
+        
+        // Create the email body content
+        const emailBody = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2>New Contact Form Submission</h2>
+            <p><strong>From:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            ${document.getElementById('phone').value ? `<p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>` : ''}
+            <p><strong>Subject:</strong> ${subject}</p>
+            <h3>Message:</h3>
+            <p>${message.replace(/\n/g, '<br>')}</p>
+          </div>
+        `;
+        
+        // Prepare the request payload
+        const emailData = {
+          "from": {
+            "address": "noreply@cityrenderings.com",
+            "name": "City Renderings Website"
+          },
+          "to": [
+            {
+              "email_address": {
+                "address": "accounts@cityrenderings.com",
+                "name": "City Renderings"
+              }
+            }
+          ],
+          "subject": `Contact Form: ${subject}`,
+          "htmlbody": emailBody
+        };
+        
+        // Log the request for debugging
+        console.log('Email request payload:', JSON.stringify(emailData, null, 2));
+        
+        // Make the API request
         const response = await fetch('https://api.zeptomail.com/v1.1/email', {
           method: 'POST',
           headers: {
@@ -71,38 +113,23 @@ document.addEventListener('DOMContentLoaded', function() {
             'Content-Type': 'application/json',
             'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g=='
           },
-          body: JSON.stringify({
-            'from': {
-              'address': 'noreply@cityrenderings.com',
-              'name': 'City Renderings Website'
-            },
-            'to': [
-              {
-                'email_address': {
-                  'address': 'accounts@cityrenderings.com',
-                  'name': 'City Renderings'
-                }
-              }
-            ],
-            'subject': `Contact Form: ${subject}`,
-            'htmlbody': `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2>New Contact Form Submission</h2>
-                <p><strong>From:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                ${document.getElementById('phone').value ? `<p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>` : ''}
-                <p><strong>Subject:</strong> ${subject}</p>
-                <h3>Message:</h3>
-                <p>${message.replace(/\n/g, '<br>')}</p>
-              </div>
-            `
-          })
+          body: JSON.stringify(emailData)
         });
         
-        const data = await response.json();
+        // Log the response for debugging
+        const responseText = await response.text();
+        console.log('API response:', responseText);
         
-        if (data.message === "OK" || (data.data && data.data[0] && data.data[0].code === "EM_104")) {
+        // Parse the response JSON
+        const data = JSON.parse(responseText);
+        
+        // Check if the email was accepted
+        if (
+          data.message === "OK" || 
+          (data.data && data.data.some(item => item.code === "EM_104"))
+        ) {
           // Success
+          console.log('Email sent successfully!');
           showFormMessage('Thank you! Your message has been sent successfully.', 'success');
           contactForm.reset();
         } else {
