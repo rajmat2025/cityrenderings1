@@ -264,11 +264,17 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
 <form id="contactForm" class="contact-form" novalidate>
   <div class="form-group mb-3">
     <label for="name">Name</label>
-    <input name="name" id="name" class="form-control" placeholder="Your name" required>
+    <div class="input-group">
+      <input name="name" id="name" class="form-control" placeholder="Your name" required>
+      <div class="invalid-feedback">Required</div>
+    </div>
   </div>
   <div class="form-group mb-3">
     <label for="email">Email</label>
-    <input name="email" id="email" type="email" class="form-control" placeholder="Your email address" required>
+    <div class="input-group">
+      <input name="email" id="email" type="email" class="form-control" placeholder="Your email address" required>
+      <div class="invalid-feedback">Valid email required</div>
+    </div>
   </div>
   <div class="form-group mb-3">
     <label for="phone">Phone (optional)</label>
@@ -276,11 +282,17 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
   </div>
   <div class="form-group mb-3">
     <label for="subject">Subject</label>
-    <input name="subject" id="subject" class="form-control" placeholder="Message subject" maxlength="120" required>
+    <div class="input-group">
+      <input name="subject" id="subject" class="form-control" placeholder="Message subject" maxlength="120" required>
+      <div class="invalid-feedback">Required</div>
+    </div>
   </div>
   <div class="form-group mb-3">
     <label for="message">Message</label>
-    <textarea name="message" id="message" class="form-control" placeholder="Your message" rows="5" maxlength="5000" required></textarea>
+    <div class="input-group">
+      <textarea name="message" id="message" class="form-control" placeholder="Your message" rows="5" maxlength="5000" required></textarea>
+      <div class="invalid-feedback">Required</div>
+    </div>
   </div>
   <!-- Honeypot field to prevent spam -->
   <input type="text" name="website" style="display:none">

@@ -21,29 +21,34 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Validate form
       let isValid = true;
+      let errors = [];
       
       if (!name) {
         document.getElementById('name').classList.add('is-invalid');
+        errors.push('Name');
         isValid = false;
       }
       
       if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         document.getElementById('email').classList.add('is-invalid');
+        errors.push('Email');
         isValid = false;
       }
       
       if (!subject) {
         document.getElementById('subject').classList.add('is-invalid');
+        errors.push('Subject');
         isValid = false;
       }
       
       if (!message) {
         document.getElementById('message').classList.add('is-invalid');
+        errors.push('Message');
         isValid = false;
       }
       
       if (!isValid) {
-        showFormMessage('Please fill in all required fields correctly.', 'danger');
+        showFormMessage(`Please complete the required fields: ${errors.join(', ')}`, 'danger');
         return;
       }
       
