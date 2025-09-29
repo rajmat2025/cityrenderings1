@@ -105,23 +105,42 @@ document.addEventListener('DOMContentLoaded', function() {
         // Log the request for debugging
         console.log('Email request payload:', JSON.stringify(emailData, null, 2));
         
-        // Make the API request
+        // This is likely a CORS issue - Zeptomail API might not allow direct browser requests
+        // Let's inform the user about this limitation
+        console.warn('Note: Zeptomail API may not allow direct browser requests due to CORS restrictions.');
+        console.log('Attempting API call anyway...');
+        
+        // Try to make the API request with additional headers
         const response = await fetch('https://api.zeptomail.com/v1.1/email', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g=='
+            'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g==',
+            'Access-Control-Allow-Origin': '*',
+            'X-Requested-With': 'XMLHttpRequest'
           },
-          body: JSON.stringify(emailData)
+          body: JSON.stringify(emailData),
+          mode: 'cors'
         });
         
-        // Log the response for debugging
-        const responseText = await response.text();
-        console.log('API response:', responseText);
+        // Log the response status and headers for debugging
+        console.log('Response status:', response.status);
+        console.log('Response headers:', [...response.headers.entries()]);
         
-        // Parse the response JSON
-        const data = JSON.parse(responseText);
+        // Get the response text
+        const responseText = await response.text();
+        console.log('API response text:', responseText);
+        
+        // Try to parse the JSON response, but handle potential parsing errors
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (jsonError) {
+          console.error('Error parsing JSON response:', jsonError);
+          console.log('Raw response:', responseText);
+          throw new Error('Invalid JSON response from server');
+        }
         
         // Check if the email was accepted
         if (
@@ -135,12 +154,75 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           // API error
           console.error('Zeptomail API error:', data);
-          showFormMessage('Sorry, there was a problem sending your message. Please try again later.', 'danger');
+          
+          // Check for specific error types
+          if (data.error && data.error.code === 'TM_4001') {
+            showFormMessage('Authentication error with the email service. Please try again later.', 'danger');
+          } else {
+            showFormMessage('Sorry, there was a problem sending your message. Please try again later.', 'danger');
+          }
         }
       } catch (error) {
         // Network error
         console.error('Error sending email:', error);
-        showFormMessage('Unable to send message. Please check your connection and try again.', 'danger');
+        
+        // Show more detailed error information for debugging
+        let errorMessage = 'Unable to send message. ';
+        
+        // Check if it's a CORS error
+        if (error instanceof TypeError && error.message.includes('CORS')) {
+          errorMessage += 'CORS error: ' + error.message;
+          console.error('CORS error detected:', error.message);
+        } 
+        // Check if it's a network error
+        else if (error.name === 'NetworkError' || error.message.includes('network')) {
+          errorMessage += 'Network error: ' + error.message;
+          console.error('Network error detected:', error.message);
+        }
+        // Other error types
+        else {
+          errorMessage += 'Error details: ' + error.message;
+        }
+        
+        // Add debugging information
+        console.log('Debug info:');
+        console.log('- Browser:', navigator.userAgent);
+        console.log('- API URL: https://api.zeptomail.com/v1.1/email');
+        console.log('- Form data:', { name, email, subject, message: message.substring(0, 50) + '...' });
+        
+        showFormMessage(errorMessage, 'danger');
+        
+        // Let's try an alternative approach - a test direct in the browser console for debugging
+        console.log('For debugging, you can test the API directly with this code:');
+        console.log(`
+fetch('https://api.zeptomail.com/v1.1/email', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g=='
+  },
+  body: JSON.stringify({
+    'from': {
+      'address': 'noreply@cityrenderings.com',
+      'name': 'City Renderings Website'
+    },
+    'to': [
+      {
+        'email_address': {
+          'address': 'accounts@cityrenderings.com',
+          'name': 'City Renderings'
+        }
+      }
+    ],
+    'subject': 'Test Email',
+    'htmlbody': '<div><b>Test email from debugging</b></div>'
+  })
+})
+.then(response => response.text())
+.then(text => console.log('API Response:', text))
+.catch(error => console.error('Error:', error));
+        `);
       } finally {
         // Re-enable submit button
         if (submitButton) {
