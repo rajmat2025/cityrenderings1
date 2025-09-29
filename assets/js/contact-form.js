@@ -67,9 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.innerHTML = 'Sending...';
       }
       
-      // Send email using Zeptomail API
+      // Send email using Zeptomail API through a CORS proxy
       try {
         console.log('Sending email...');
+        
+        // Get the phone value safely
+        const phone = document.getElementById('phone') ? document.getElementById('phone').value.trim() : '';
         
         // Create the email body content
         const emailBody = `
@@ -77,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h2>New Contact Form Submission</h2>
             <p><strong>From:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
-            ${document.getElementById('phone').value ? `<p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>` : ''}
+            ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
             <p><strong>Subject:</strong> ${subject}</p>
             <h3>Message:</h3>
             <p>${message.replace(/\n/g, '<br>')}</p>
@@ -105,28 +108,43 @@ document.addEventListener('DOMContentLoaded', function() {
         // Log the request for debugging
         console.log('Email request payload:', JSON.stringify(emailData, null, 2));
         
-        // This is likely a CORS issue - Zeptomail API might not allow direct browser requests
-        // Let's inform the user about this limitation
-        console.warn('Note: Zeptomail API may not allow direct browser requests due to CORS restrictions.');
-        console.log('Attempting API call anyway...');
+        // Using a CORS proxy to bypass CORS restrictions
+        // Options: 
+        // 1. https://corsproxy.io/ - Reliable free proxy
+        // 2. https://cors-anywhere.herokuapp.com/ - Requires temporary access
+        // 3. https://api.allorigins.win/raw?url= - Another option
+        // 4. https://proxy.cors.sh/ - Yet another option
         
-        // Try to make the API request with additional headers
-        const response = await fetch('https://api.zeptomail.com/v1.1/email', {
+        const CORS_PROXY = 'https://corsproxy.io/?'; // Most reliable free option
+        const API_URL = 'https://api.zeptomail.com/v1.1/email';
+        
+        console.log('Sending through CORS proxy:', CORS_PROXY);
+        
+        // Make the API request through the CORS proxy
+        const response = await fetch(CORS_PROXY + encodeURIComponent(API_URL), {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g==',
-            'Access-Control-Allow-Origin': '*',
-            'X-Requested-With': 'XMLHttpRequest'
+            'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g=='
           },
-          body: JSON.stringify(emailData),
-          mode: 'cors'
+          body: JSON.stringify(emailData)
         });
         
-        // Log the response status and headers for debugging
+        // Log the response status for debugging
         console.log('Response status:', response.status);
-        console.log('Response headers:', [...response.headers.entries()]);
+        
+        // If the response is not successful, log more details
+        if (!response.ok) {
+          console.warn(`CORS proxy returned status ${response.status}`);
+          console.log('Response headers:', [...response.headers.entries()]);
+          
+          // If the status is 429 or 403, the proxy might have rate-limited us
+          if (response.status === 429 || response.status === 403) {
+            console.error('CORS proxy rate limit may have been exceeded. Trying alternative...');
+            throw new Error('CORS proxy rate limited');
+          }
+        }
         
         // Get the response text
         const responseText = await response.text();
@@ -163,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
       } catch (error) {
-        // Network error
+        // Network or CORS error
         console.error('Error sending email:', error);
         
         // Show more detailed error information for debugging
@@ -184,45 +202,99 @@ document.addEventListener('DOMContentLoaded', function() {
           errorMessage += 'Error details: ' + error.message;
         }
         
-        // Add debugging information
         console.log('Debug info:');
         console.log('- Browser:', navigator.userAgent);
-        console.log('- API URL: https://api.zeptomail.com/v1.1/email');
         console.log('- Form data:', { name, email, subject, message: message.substring(0, 50) + '...' });
         
         showFormMessage(errorMessage, 'danger');
         
-        // Let's try an alternative approach - a test direct in the browser console for debugging
-        console.log('For debugging, you can test the API directly with this code:');
-        console.log(`
-fetch('https://api.zeptomail.com/v1.1/email', {
-  method: 'POST',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g=='
-  },
-  body: JSON.stringify({
-    'from': {
-      'address': 'noreply@cityrenderings.com',
-      'name': 'City Renderings Website'
-    },
-    'to': [
-      {
-        'email_address': {
-          'address': 'accounts@cityrenderings.com',
-          'name': 'City Renderings'
+        // Try an alternative CORS proxy if the first one fails
+        console.log('Trying alternative CORS proxy...');
+        
+        try {
+          // Prepare email data again
+          const emailData = {
+            "from": {
+              "address": "noreply@cityrenderings.com",
+              "name": "City Renderings Website"
+            },
+            "to": [
+              {
+                "email_address": {
+                  "address": "accounts@cityrenderings.com",
+                  "name": "City Renderings"
+                }
+              }
+            ],
+            "subject": `Contact Form: ${subject}`,
+            "htmlbody": `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2>New Contact Form Submission</h2>
+                <p><strong>From:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                ${document.getElementById('phone') && document.getElementById('phone').value ? 
+                  `<p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>` : ''}
+                <p><strong>Subject:</strong> ${subject}</p>
+                <h3>Message:</h3>
+                <p>${message.replace(/\n/g, '<br>')}</p>
+              </div>
+            `
+          };
+          
+          // Try an alternative proxy
+          const ALT_CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+          console.log('Using alternative proxy:', ALT_CORS_PROXY);
+          
+          // Make request with different proxy
+          fetch(ALT_CORS_PROXY + encodeURIComponent('https://api.zeptomail.com/v1.1/email'), {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': 'Zoho-enczapikey wSsVR613+RH1X6womGGqJbxsy1sGVFnxER8o2FGp6iOvGfrFp8c5k0GaVAKnT/FLGTQ7HWYQpL0onEoJgTcP29wlzF0ACCiF9mqRe1U4J3x17qnvhDzKVmhakhuLLowNxgVun2VpFMkr+g=='
+            },
+            body: JSON.stringify(emailData)
+          })
+          .then(response => response.text())
+          .then(text => {
+            console.log('Alternative proxy response:', text);
+            try {
+              const data = JSON.parse(text);
+              if (data.message === "OK" || (data.data && data.data.some(item => item.code === "EM_104"))) {
+                showFormMessage('Thank you! Your message has been sent successfully.', 'success');
+                contactForm.reset();
+              }
+            } catch (e) {
+              console.error('Error parsing alternative response:', e);
+            }
+          })
+          .catch(altError => {
+            console.error('Alternative proxy error:', altError);
+            // Show alternative contact message after both methods fail
+            showFormMessage('Please contact us directly at accounts@cityrenderings.com or try again later.', 'warning');
+          });
+        } catch (altError) {
+          console.error('Alternative approach error:', altError);
+          // Final fallback - offer a direct mailto link or fallback form
+          const fallbackMessage = document.createElement('div');
+          fallbackMessage.innerHTML = `
+            <div class="alert alert-warning mt-3">
+              <p>We're experiencing technical difficulties with our contact form.</p>
+              <p>Please try one of these options instead:</p>
+              <p>1. <a href="mailto:accounts@cityrenderings.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nPhone: ' + (document.getElementById('phone') ? document.getElementById('phone').value : '') + '\n\n' + message)}">Click here to send via email client</a></p>
+              <p>2. <a href="/fallback-contact.html" target="_blank">Use our fallback contact form</a></p>
+              <p>3. Email us directly at accounts@cityrenderings.com</p>
+            </div>
+          `;
+          
+          const formMessageEl = document.getElementById('formMessage');
+          if (formMessageEl) {
+            formMessageEl.innerHTML = '';
+            formMessageEl.appendChild(fallbackMessage);
+            formMessageEl.style.display = 'block';
+            formMessageEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
         }
-      }
-    ],
-    'subject': 'Test Email',
-    'htmlbody': '<div><b>Test email from debugging</b></div>'
-  })
-})
-.then(response => response.text())
-.then(text => console.log('API Response:', text))
-.catch(error => console.error('Error:', error));
-        `);
       } finally {
         // Re-enable submit button
         if (submitButton) {
