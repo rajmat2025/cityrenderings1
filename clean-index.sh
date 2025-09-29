@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# Create a new cleaned version of the HTML file
+cat > /workspaces/cityrenderings1/index.clean.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -364,3 +368,7 @@
 
 </body>
 </html>
+EOF
+
+# Replace the original file with the clean version
+cp /workspaces/cityrenderings1/index.clean.html /workspaces/cityrenderings1/index.html
