@@ -275,15 +275,14 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         } catch (altError) {
           console.error('Alternative approach error:', altError);
-          // Final fallback - offer a direct mailto link or fallback form
+          // Final fallback - offer a direct mailto link
           const fallbackMessage = document.createElement('div');
           fallbackMessage.innerHTML = `
             <div class="alert alert-warning mt-3">
               <p>We're experiencing technical difficulties with our contact form.</p>
               <p>Please try one of these options instead:</p>
               <p>1. <a href="mailto:accounts@cityrenderings.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nPhone: ' + (document.getElementById('phone') ? document.getElementById('phone').value : '') + '\n\n' + message)}">Click here to send via email client</a></p>
-              <p>2. <a href="/fallback-contact.html" target="_blank">Use our fallback contact form</a></p>
-              <p>3. Email us directly at accounts@cityrenderings.com</p>
+              <p>2. Email us directly at accounts@cityrenderings.com</p>
             </div>
           `;
           
