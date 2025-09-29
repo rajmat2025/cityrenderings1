@@ -1,0 +1,65 @@
+# Ignore backup files
+*-backup*
+*.backup
+*.bak
+*~
+*.old
+*.tmp
+*.swp
+*.swo
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore Node.js related files
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.npm/
+
+# Ignore build artifacts
+dist/
+build/
+out/
+.cache/
+
+# Ignore IDE and editor files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+.vs/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Ignore logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env*.local
+
+# Ignore Cloudflare functions local dev files
+.wrangler/
+.dev.vars
+
+# Ignore file backups with numeric suffixes
+*.[0-9]*
+*.[0-9].[0-9]*
+
+# Ignore files ending with .new
+*.new
