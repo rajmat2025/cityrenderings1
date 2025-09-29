@@ -49,33 +49,40 @@
     background-color: #0069d9;
 }
 
-.form-success {
-    padding: 10px;
-    margin: 10px 0;
+/* Alert and validation styling */
+.contact-form .alert {
+    padding: 15px;
+    margin: 20px 0;
     border-radius: 4px;
-    background-color: #e8f5e9;
-    color: #2e7d32;
-    border: 1px solid #a5d6a7;
 }
 
-.form-error {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 4px;
-    background-color: #ffebee;
-    color: #c62828;
-    border: 1px solid #ffcdd2;
+.contact-form .alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.contact-form .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.contact-form .alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
 }
 
 /* Form validation styles */
-.contact-form input.invalid,
-.contact-form textarea.invalid {
+.contact-form .is-invalid {
     border-color: #dc3545;
-    background-color: #fff8f8;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
-.contact-form .validation-message {
+.contact-form .invalid-feedback {
     color: #dc3545;
     font-size: 14px;
     margin-top: 5px;
+    display: block;
 }
